@@ -1232,6 +1232,12 @@ Err_Renamed:
                 Case NOTE_TYPE.SLIDE_CHILD_NOTE
                     Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_SLIDENOTE))
 
+                Case NOTE_TYPE.SLIDE2_PARENT_NOTE
+                    Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_SLIDENOTE))
+
+                Case NOTE_TYPE.SLIDE2_CHILD_NOTE
+                    Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_SLIDENOTE))
+
                 Case Else
                     Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_LONGNOTE))
             End Select

@@ -325,11 +325,14 @@ Module modMain
 
     Public Enum NOTE_TYPE As Integer
         NORMAL_NOTE = 2
-        STRONG_NOTE = 3
-        LONG_NOTE = 4
-        SLIDE_PARENT_NOTE = 5
-        SLIDE_CHILD_NOTE = 6
-        SPECIAL_NOTE = 7
+        LONG_NOTE = 3
+        SLIDE_PARENT_NOTE = 4
+        SLIDE_CHILD_NOTE = 5
+        SLIDE2_PARENT_NOTE = 6
+        SLIDE2_CHILD_NOTE = 7
+        SPECIAL_NOTE = 8
+        FLICK_UP = 10
+        FLICK_DOWN = 11
     End Enum
 
     Public Structure pairObj
