@@ -303,6 +303,48 @@ Module modMain
     End Structure
 
     Public g_Obj() As g_udtObj
+    Public g_ObjPairErrorFlag() As Integer
+
+    Public Structure ObjForSort
+        Dim index As Integer
+        Dim intCh As Integer
+        Dim intMeasure As Integer
+        Dim lngPosition As Integer
+        Dim sngValue As Single
+        Dim intSelect As OBJ_SELECT
+    End Structure
+
+    Public Class CompareByTime : Implements System.Collections.IComparer
+        Public Function Compare(x As Object, y As Object) As Integer Implements System.Collections.IComparer.Compare
+            ' right > left	:	正の値を返す。
+            ' right == left	:	0を返す。
+            ' right < left	:	負の値を返す
+            Return ((g_Measure(DirectCast(x, ObjForSort).intMeasure).lngY + DirectCast(x, ObjForSort).lngPosition) - (g_Measure(DirectCast(y, ObjForSort).intMeasure).lngY + DirectCast(y, ObjForSort).lngPosition))
+        End Function
+    End Class
+
+    Public Enum NOTE_TYPE As Integer
+        START_MARKER = &H1
+        NORMAL_NOTE = &H2
+        LONG_NOTE = &H3
+        SLIDE_PARENT_NOTE = &H4
+        SLIDE_CHILD_NOTE = &H5
+        SLIDE2_PARENT_NOTE = &H6
+        SLIDE2_CHILD_NOTE = &H7
+        FLICK_UP = &H10
+        FLICK_DOWN = &H11
+        SPECIAL_NOTE = &H20
+    End Enum
+
+    Public Structure pairObj
+        Dim Type As Integer
+        Dim ID As Integer
+        Dim startID As Integer
+        Dim endID As Integer
+        Dim nextID As Integer
+    End Structure
+
+    Public g_PairList() As pairObj
 
     Public g_lngObjID() As Integer
     Public g_lngIDNum As Integer
@@ -390,8 +432,7 @@ Module modMain
 
         End If
 
-        g_strAppTitle = "BMx Sequence Editor " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
-        g_strAppTitle = g_strAppTitle & " beta 14"
+        g_strAppTitle = "BMx Sequence Editor For Drossel Studio " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
 
 #If MODE_DEBUG = False Then
 		
@@ -609,6 +650,8 @@ Module modMain
         End With
 
         ReDim g_Obj(0)
+        ReDim g_PairList(0)
+        ReDim g_ObjPairErrorFlag(0)
         ReDim g_lngObjID(0)
         g_lngIDNum = 0
 
@@ -1267,11 +1310,29 @@ Err_Renamed:
                     g_lngPenColor(modDraw.PEN_NUM.BGA_SHADOW) = GetColor("BGA", "ObjectShadow", "0,96,0", strFileName)
                     g_lngBrushColor(modDraw.BRUSH_NUM.BGA) = GetColor("BGA", "ObjectColor", "0,128,0", strFileName)
 
-                Case modDraw.BRUSH_NUM.KEY01, modDraw.BRUSH_NUM.KEY03, modDraw.BRUSH_NUM.KEY05, modDraw.BRUSH_NUM.KEY07
+                Case modDraw.BRUSH_NUM.KEY01
 
                     lngTemp = (i - modDraw.BRUSH_NUM.KEY01) + 1
 
-                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", lngTemp, strFileName)
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", "L", strFileName)
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).lngBackColor = GetColor("KEY_1P_0" & lngTemp, "Background", "48,0,0", strFileName)
+
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectLight", "255,96,96", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_LIGHT + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_LIGHT + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectShadow", "128,0,0", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_SHADOW + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_SHADOW + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectColor", "255,0,0", strFileName)
+                    g_lngBrushColor(modDraw.BRUSH_NUM.KEY01 + lngTemp - 1) = Color
+                    g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY01 + lngTemp - 1) = HalfColor(Color)
+
+                Case modDraw.BRUSH_NUM.KEY03, modDraw.BRUSH_NUM.KEY05
+
+                    lngTemp = (i - modDraw.BRUSH_NUM.KEY01) + 1
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", (lngTemp - 1), strFileName)
 
                     g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).lngBackColor = GetColor("KEY_1P_0" & lngTemp, "Background", "32,32,32", strFileName)
 
@@ -1285,10 +1346,10 @@ Err_Renamed:
                     g_lngBrushColor(modDraw.BRUSH_NUM.KEY01 + lngTemp - 1) = Color
                     g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY01 + lngTemp - 1) = HalfColor(Color)
 
-                Case modDraw.BRUSH_NUM.KEY02, modDraw.BRUSH_NUM.KEY04, modDraw.BRUSH_NUM.KEY06
+                Case modDraw.BRUSH_NUM.KEY02, modDraw.BRUSH_NUM.KEY04
 
                     lngTemp = (i - modDraw.BRUSH_NUM.KEY01) + 1
-                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", lngTemp, strFileName)
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", (lngTemp - 1), strFileName)
 
                     g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).lngBackColor = GetColor("KEY_1P_0" & lngTemp, "Background", "0,0,40", strFileName)
 
@@ -1302,22 +1363,58 @@ Err_Renamed:
                     g_lngBrushColor(modDraw.BRUSH_NUM.KEY01 + lngTemp - 1) = Color
                     g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY01 + lngTemp - 1) = HalfColor(Color)
 
+                Case modDraw.BRUSH_NUM.KEY06
+
+                    lngTemp = (i - modDraw.BRUSH_NUM.KEY01) + 1
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", "R", strFileName)
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).lngBackColor = GetColor("KEY_1P_0" & lngTemp, "Background", "48,0,0", strFileName)
+
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectLight", "255,96,96", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_LIGHT + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_LIGHT + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectShadow", "128,0,0", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_SHADOW + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_SHADOW + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectColor", "255,0,0", strFileName)
+                    g_lngBrushColor(modDraw.BRUSH_NUM.KEY01 + lngTemp - 1) = Color
+                    g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY01 + lngTemp - 1) = HalfColor(Color)
+
+                Case modDraw.BRUSH_NUM.KEY07
+
+                    lngTemp = (i - modDraw.BRUSH_NUM.KEY01) + 1
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).strText = strGet_ini("KEY_1P_0" & lngTemp, "Text", "SP", strFileName)
+
+                    g_VGrid(modDraw.GRID.NUM_1P_1KEY + lngTemp - 1).lngBackColor = GetColor("KEY_1P_0" & lngTemp, "Background", "0,48,0", strFileName)
+
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectLight", "96,255,96", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_LIGHT + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_LIGHT + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectShadow", "0,128,0", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.KEY01_SHADOW + lngTemp - 1) = Color
+                    g_lngPenColor(modDraw.PEN_NUM.INV_KEY01_SHADOW + lngTemp - 1) = HalfColor(Color)
+                    Color = GetColor("KEY_1P_0" & lngTemp, "ObjectColor", "0,255,0", strFileName)
+                    g_lngBrushColor(modDraw.BRUSH_NUM.KEY01 + lngTemp - 1) = Color
+                    g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY01 + lngTemp - 1) = HalfColor(Color)
+
                 Case modDraw.BRUSH_NUM.KEY08
 
-                    g_VGrid(modDraw.GRID.NUM_1P_SC_L).strText = strGet_ini("KEY_1P_SC", "Text", "SC", strFileName)
-                    g_VGrid(modDraw.GRID.NUM_1P_SC_R).strText = strGet_ini("KEY_1P_SC", "Text", "SC", strFileName)
+                    g_VGrid(modDraw.GRID.NUM_1P_SC_L).strText = strGet_ini("KEY_1P_SC", "Text", "-", strFileName)
+                    g_VGrid(modDraw.GRID.NUM_1P_SC_R).strText = strGet_ini("KEY_1P_SC", "Text", "-", strFileName)
 
-                    Color = GetColor("KEY_1P_SC", "Background", "48,0,0", strFileName)
+                    Color = GetColor("KEY_1P_SC", "Background", "0,0,0", strFileName)
                     g_VGrid(modDraw.GRID.NUM_1P_SC_L).lngBackColor = Color
                     g_VGrid(modDraw.GRID.NUM_1P_SC_R).lngBackColor = Color
 
-                    Color = GetColor("KEY_1P_SC", "ObjectLight", "255,96,96", strFileName)
+                    Color = GetColor("KEY_1P_SC", "ObjectLight", "96,96,96", strFileName)
                     g_lngPenColor(modDraw.PEN_NUM.KEY08_LIGHT) = Color
                     g_lngPenColor(modDraw.PEN_NUM.INV_KEY08_LIGHT) = HalfColor(Color)
-                    Color = GetColor("KEY_1P_SC", "ObjectShadow", "128,0,0", strFileName)
+                    Color = GetColor("KEY_1P_SC", "ObjectShadow", "24,24,24", strFileName)
                     g_lngPenColor(modDraw.PEN_NUM.KEY08_SHADOW) = Color
                     g_lngPenColor(modDraw.PEN_NUM.INV_KEY08_SHADOW) = HalfColor(Color)
-                    Color = GetColor("KEY_1P_SC", "ObjectColor", "255,0,0", strFileName)
+                    Color = GetColor("KEY_1P_SC", "ObjectColor", "48,48,48", strFileName)
                     g_lngBrushColor(modDraw.BRUSH_NUM.KEY08) = Color
                     g_lngBrushColor(modDraw.BRUSH_NUM.INV_KEY08) = HalfColor(Color)
 
@@ -1388,11 +1485,20 @@ Err_Renamed:
                     g_lngPenColor(modDraw.PEN_NUM.LONGNOTE_SHADOW) = GetColor("KEY_LONGNOTE", "ObjectShadow", "0,32,0", strFileName)
                     g_lngBrushColor(modDraw.BRUSH_NUM.LONGNOTE) = GetColor("KEY_LONGNOTE", "ObjectColor", "0,64,0", strFileName)
 
+                Case modDraw.BRUSH_NUM.ERRORNOTE
+
+                    g_lngBrushColor(modDraw.BRUSH_NUM.ERRORNOTE) = GetColor("KEY_ERRORNOTE", "ObjectColor", "255,0,0", strFileName)
+
                 Case modDraw.BRUSH_NUM.SELECT_OBJ
 
                     g_lngPenColor(modDraw.PEN_NUM.SELECT_OBJ_LIGHT) = GetColor("SELECT", "ObjectLight", "255,255,255", strFileName)
                     g_lngPenColor(modDraw.PEN_NUM.SELECT_OBJ_SHADOW) = GetColor("SELECT", "ObjectShadow", "128,128,128", strFileName)
                     g_lngBrushColor(modDraw.BRUSH_NUM.SELECT_OBJ) = GetColor("SELECT", "ObjectColor", "0,255,255", strFileName)
+
+                Case modDraw.BRUSH_NUM.CONNECTION
+
+                    g_lngPenColor(modDraw.PEN_NUM.CONNECTION_LONGNOTE) = GetColor("LINE_CONNECTION", "LongNote", "255,0,0", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.CONNECTION_SLIDENOTE) = GetColor("LINE_CONNECTION", "SlideNote", "0,255,255", strFileName)
 
                 Case modDraw.BRUSH_NUM.EDIT_FRAME
 
