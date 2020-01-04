@@ -11,11 +11,11 @@ Imports System.Runtime.InteropServices
 ' TODO: アセンブリ属性の値を確認します。
 
 
-<Assembly: AssemblyTitle("BMx Sequence Editor For Drossel Studio")>
+<Assembly: AssemblyTitle("Sumire Editor (BMSE For Drossel Studio)")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("BMx Sequence Editor For Drossel Studio")>
-<Assembly: AssemblyCopyright("Hayana/UCN-Soft 2004-2007. Drossel Studio 2015-2019.")>
+<Assembly: AssemblyProduct("Sumire Editor (BMSE For Drossel Studio)")>
+<Assembly: AssemblyCopyright("Hayana/UCN-Soft 2004-2007. Drossel Studio 2015-2020.")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 

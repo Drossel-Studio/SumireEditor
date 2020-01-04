@@ -656,7 +656,7 @@ Module modEasterEgg
 
         ReDim m_strStaffRoll(0)
 
-        Call AddStaffRoll("BMx Sequence Editor", 1)
+        Call AddStaffRoll("Sumire Editor (BMSE For Drossel Studio)", 1)
         Call AddStaffRoll(My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision, 1)
         Call AddStaffRoll("Staff Credit", 5)
 
@@ -664,6 +664,7 @@ Module modEasterEgg
         'Call AddStaffRoll("tokonats", 3)
         Call AddStaffRoll("Hayana", 0)
         Call AddStaffRoll("(aka tokonats)", 3)
+        Call AddStaffRoll("Arranged by T.T", 0)
 
         Call AddStaffRoll("-Program Icon, Toolbar Icon, BMSE Image-", 1)
         Call AddStaffRoll("AOiRO_Manbow", 3)

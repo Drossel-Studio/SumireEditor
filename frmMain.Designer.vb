@@ -2803,7 +2803,7 @@
         Me.Location = New System.Drawing.Point(11, 49)
         Me.Name = "frmMain"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Text = "BMx Sequence Editor"
+        Me.Text = "Sumire Editor (BMSE For Drossel Studio)"
         Me.MainMenu1.ResumeLayout(False)
         Me.MainMenu1.PerformLayout()
         Me.mnuContext.ResumeLayout(False)

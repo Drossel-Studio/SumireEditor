@@ -65,7 +65,7 @@
         Me.Name = "frmWindowAbout"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
-        Me.Text = "About BMSE"
+        Me.Text = "About Sumire Editor"
         Me.ResumeLayout(False)
 
     End Sub

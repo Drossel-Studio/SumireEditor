@@ -432,7 +432,7 @@ Module modMain
 
         End If
 
-        g_strAppTitle = "BMx Sequence Editor For Drossel Studio " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
+        g_strAppTitle = "Sumire Editor " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
 
 #If MODE_DEBUG = False Then
 		
@@ -1585,7 +1585,7 @@ Err_Renamed:
             .mnuHelp.Text = strGet_ini("Menu", "HELP", "&Help", strFileName)
             .mnuHelpOpen.Text = strGet_ini("Menu", "HELP_OPEN", "&Help", strFileName)
             .mnuHelpWeb.Text = strGet_ini("Menu", "HELP_WEB", "Open &Website", strFileName)
-            .mnuHelpAbout.Text = strGet_ini("Menu", "HELP_ABOUT", "&About BMSE", strFileName)
+            .mnuHelpAbout.Text = strGet_ini("Menu", "HELP_ABOUT", "&About Sumire Editor", strFileName)
 
             .mnuContext.Visible = False
             .mnuContextPlayAll.Text = strGet_ini("Menu", "TOOLS_PLAY_FIRST", "Play &All", strFileName)
