@@ -371,7 +371,7 @@ Friend Class frmMain
 
             'Call SaveChanges
 
-            Call modInput.CreatePairList()
+            Call modMain.CreatePairList()
 
             picMain.Refresh()
 
@@ -1844,7 +1844,7 @@ Err_Renamed:
 
                     Call modDraw.DrawObjMax(g_Mouse.X, g_Mouse.Y, eventArgs.Modifiers)
 
-                    Call modInput.CreatePairList()
+                    Call modMain.CreatePairList()
 
                     picMain.Refresh()
 
@@ -1887,7 +1887,7 @@ Err_Renamed:
 
                     Call modDraw.DrawObjMax(g_Mouse.X, g_Mouse.Y, eventArgs.Modifiers)
 
-                    Call modInput.CreatePairList()
+                    Call modMain.CreatePairList()
 
                     picMain.Refresh()
 
@@ -4192,7 +4192,7 @@ Err_Renamed:
 
         Call modDraw.ArrangeObj()
 
-        Call modInput.CreatePairList()
+        Call modMain.CreatePairList()
 
         picMain.Refresh()
 
@@ -4313,7 +4313,7 @@ Err_Renamed:
 
         Call g_InputLog.AddData(Join(strArray, modLog.getSeparator))
 
-        Call modInput.CreatePairList()
+        Call modMain.CreatePairList()
 
         picMain.Refresh()
 
@@ -4962,7 +4962,7 @@ Err_Renamed:
 
                 Call modDraw.DrawObjMax(g_Mouse.X, g_Mouse.Y, e.Modifiers)
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 picMain.Refresh()
 
@@ -4983,7 +4983,7 @@ Err_Renamed:
 
                     Call modDraw.DrawObjMax(g_Mouse.X, g_Mouse.Y, e.Modifiers)
 
-                    Call modInput.CreatePairList()
+                    Call modMain.CreatePairList()
 
                     picMain.Refresh()
 
@@ -5032,7 +5032,7 @@ Err_Renamed:
 
                 Call modDraw.ObjSelectCancel()
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 picMain.Refresh()
 
@@ -5267,7 +5267,7 @@ Err_Renamed:
 
                     End If
 
-                    Call modInput.CreatePairList()
+                    Call modMain.CreatePairList()
 
                     picMain.Refresh()
 
@@ -5335,7 +5335,7 @@ Err_Renamed:
 
             Call DrawObjMax(eventArgs.X, eventArgs.Y, Shift)
 
-            Call modInput.CreatePairList()
+            Call modMain.CreatePairList()
 
             picMain.Refresh()
 
@@ -5360,7 +5360,7 @@ Err_Renamed:
                 '整列
                 Call modDraw.ArrangeObj()
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 '再描画
                 picMain.Refresh()
@@ -5532,7 +5532,7 @@ Err_Renamed:
 
                 Call modDraw.ArrangeObj()
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 picMain.Refresh()
 
@@ -5622,7 +5622,7 @@ Err_Renamed:
 
                 End If
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 picMain.Refresh()
 
@@ -5680,7 +5680,7 @@ Err_Renamed:
 
                 Call modDraw.DrawObjMax(eventArgs.X, eventArgs.Y, Shift)
 
-                Call modInput.CreatePairList()
+                Call modMain.CreatePairList()
 
                 picMain.Refresh()
 
