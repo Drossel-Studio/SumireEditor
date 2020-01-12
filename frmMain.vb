@@ -6398,4 +6398,21 @@ Err_Renamed:
         LightPen.Dispose()
 
     End Sub
+
+    Private Sub picMain_MouseWheel(sender As Object, e As MouseEventArgs) Handles picMain.MouseWheel
+        Dim value As Integer = vsbMain.Value
+        If e.Delta > 0 Then
+            value -= vsbMain.SmallChange
+            If value < vsbMain.Minimum Then
+                value = vsbMain.Minimum
+            End If
+        Else
+            value += vsbMain.SmallChange
+            If value > (vsbMain.Maximum - vsbMain.LargeChange + 1) Then
+                value = vsbMain.Maximum - vsbMain.LargeChange + 1
+            End If
+        End If
+
+        vsbMain.Value = value
+    End Sub
 End Class
