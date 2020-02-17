@@ -511,6 +511,8 @@ Module modDraw
 
         g_disp.lngMaxY = g_Measure(999).lngY + g_Measure(999).intLen
 
+        Call modMain.CreatePairList()
+
         frmMain.picMain.Refresh()
 
         Exit Sub
