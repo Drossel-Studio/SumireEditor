@@ -111,11 +111,11 @@ Module modDraw
     '31-49 不可視オブジェ
     '51-69 ロングノート
 
-    Public g_lngPenColor(77) As Integer
+    Public g_lngPenColor(79) As Integer
     Public g_lngBrushColor(37) As Integer
     Public g_lngSystemColor(6) As Integer
 
-    Private m_hPen(77) As IntPtr
+    Private m_hPen(79) As IntPtr
     Private m_hBrush(38) As IntPtr
 
     Private m_tempObj() As g_udtObj
@@ -210,6 +210,8 @@ Module modDraw
         DELETE_FRAME
         CONNECTION_LONGNOTE
         CONNECTION_SLIDENOTE
+        CONNECTION_PAIRNOTE
+        CONNECTION_RAINBOWNOTE
         Max
     End Enum
 
@@ -1239,6 +1241,12 @@ Err_Renamed:
 
                 Case NOTE_TYPE.SLIDE2_CHILD_NOTE
                     Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_SLIDENOTE))
+
+                Case NOTE_TYPE.PAIR_NOTE
+                    Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_PAIRNOTE))
+
+                Case NOTE_TYPE.RAINBOW_NOTE
+                    Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_RAINBOWNOTE))
 
                 Case Else
                     Call SelectObject(hDC, m_hPen(PEN_NUM.CONNECTION_LONGNOTE))

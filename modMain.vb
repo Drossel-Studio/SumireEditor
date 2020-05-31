@@ -337,9 +337,15 @@ Module modMain
         SLIDE_CHILD_NOTE = &H5
         SLIDE2_PARENT_NOTE = &H6
         SLIDE2_CHILD_NOTE = &H7
+        PAIR_NOTE = &H8
         FLICK_UP = &H10
         FLICK_DOWN = &H11
+        FLICK_ALL = &H12
         SPECIAL_NOTE = &H20
+        SPECIAL_FLICK_RIGHT_NOTE = &H21
+        SPECIAL_FLICK_UPPERRIGHT_NOTE = &H22
+        SPECIAL_FLICK_LOWERRIGHT_NOTE = &H23
+        RAINBOW_NOTE = &H24
     End Enum
 
     Public Structure pairObj
@@ -1505,6 +1511,8 @@ Err_Renamed:
 
                     g_lngPenColor(modDraw.PEN_NUM.CONNECTION_LONGNOTE) = GetColor("LINE_CONNECTION", "LongNote", "255,0,0", strFileName)
                     g_lngPenColor(modDraw.PEN_NUM.CONNECTION_SLIDENOTE) = GetColor("LINE_CONNECTION", "SlideNote", "0,255,255", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.CONNECTION_PAIRNOTE) = GetColor("LINE_CONNECTION", "PairNote", "0,255,0", strFileName)
+                    g_lngPenColor(modDraw.PEN_NUM.CONNECTION_RAINBOWNOTE) = GetColor("LINE_CONNECTION", "RainbowNote", "255,0,255", strFileName)
 
                 Case modDraw.BRUSH_NUM.EDIT_FRAME
 
@@ -2826,6 +2834,110 @@ InitConfig:
 
                     'ペアなしフラグを立てる
                     g_ObjPairErrorFlag(SortedObj(i).index) = 1
+
+                'ペアノーツ
+                Case NOTE_TYPE.PAIR_NOTE
+                    '登録済みかを検索
+                    reg = False
+                    For j = 0 To pairNum - 1
+                        If (g_PairList(j).endID = SortedObj(i).index) Then
+                            reg = True
+                            Exit For
+                        End If
+                    Next j
+                    If reg Then
+                        Continue For
+                    End If
+
+                    'ペアリストを作成
+                    g_PairList(pairNum).Type = SortedObj(i).sngValue
+                    g_PairList(pairNum).ID = SortedObj(i).index
+                    g_PairList(pairNum).startID = SortedObj(i).index
+                    g_PairList(pairNum).endID = -1
+                    g_PairList(pairNum).nextID = -1
+
+                    For j = i + 1 To UBound(SortedObj)
+                        'ペアとなるペアノーツを検索
+
+                        '対象でなければ除外
+                        '時間が異なる
+                        If ((SortedObj(i).intMeasure <> SortedObj(j).intMeasure) Or (SortedObj(i).lngPosition <> SortedObj(j).lngPosition)) Then
+                            Continue For
+                        End If
+                        '枠線
+                        If (SortedObj(j).intSelect = OBJ_SELECT.EDIT_RECT) Or (SortedObj(j).intSelect = OBJ_SELECT.DELETE_RECT) Then
+                            Continue For
+                        End If
+                        '種類が異なる
+                        If (SortedObj(j).sngValue <> NOTE_TYPE.PAIR_NOTE) Then
+                            Continue For
+                        End If
+
+                        'ペアとして登録
+                        g_PairList(pairNum).endID = SortedObj(j).index
+                        g_PairList(pairNum).nextID = SortedObj(j).index
+                        Exit For
+                    Next j
+
+                    'ペアなしフラグを立てる
+                    If (g_PairList(pairNum).endID = -1) Then
+                        g_ObjPairErrorFlag(g_PairList(pairNum).ID) = 1
+                    End If
+
+                    '登録完了
+                    pairNum += 1
+
+                'レインボーノーツ
+                Case NOTE_TYPE.RAINBOW_NOTE
+                    '登録済みかを検索
+                    reg = False
+                    For j = 0 To pairNum - 1
+                        If (g_PairList(j).endID = SortedObj(i).index) Then
+                            reg = True
+                            Exit For
+                        End If
+                    Next j
+                    If reg Then
+                        Continue For
+                    End If
+
+                    'ペアリストを作成
+                    g_PairList(pairNum).Type = SortedObj(i).sngValue
+                    g_PairList(pairNum).ID = SortedObj(i).index
+                    g_PairList(pairNum).startID = SortedObj(i).index
+                    g_PairList(pairNum).endID = -1
+                    g_PairList(pairNum).nextID = -1
+
+                    For j = i + 1 To UBound(SortedObj)
+                        'ペアとなるレインボーノーツを検索
+
+                        '対象でなければ除外
+                        'レーンが異なる
+                        If (SortedObj(i).intCh <> SortedObj(j).intCh) Then
+                            Continue For
+                        End If
+                        '枠線
+                        If (SortedObj(j).intSelect = OBJ_SELECT.EDIT_RECT) Or (SortedObj(j).intSelect = OBJ_SELECT.DELETE_RECT) Then
+                            Continue For
+                        End If
+                        '種類が異なる
+                        If (SortedObj(j).sngValue <> NOTE_TYPE.RAINBOW_NOTE) Then
+                            Continue For
+                        End If
+
+                        'ペアとして登録
+                        g_PairList(pairNum).endID = SortedObj(j).index
+                        g_PairList(pairNum).nextID = SortedObj(j).index
+                        Exit For
+                    Next j
+
+                    'ペアなしフラグを立てる
+                    If (g_PairList(pairNum).endID = -1) Then
+                        g_ObjPairErrorFlag(g_PairList(pairNum).ID) = 1
+                    End If
+
+                    '登録完了
+                    pairNum += 1
 
             End Select
         Next i
