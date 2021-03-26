@@ -14,11 +14,11 @@
   "project": {
     "version": "1.5.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TT\\Documents\\GitHub\\BMSE\\BMSE.vbproj",
+      "projectUniqueName": "C:\\Users\\TT\\Documents\\GitHub\\SumireEditor\\BMSE.vbproj",
       "projectName": "Sumire Editor (BMSE For Drossel Studio)",
-      "projectPath": "C:\\Users\\TT\\Documents\\GitHub\\BMSE\\BMSE.vbproj",
+      "projectPath": "C:\\Users\\TT\\Documents\\GitHub\\SumireEditor\\BMSE.vbproj",
       "packagesPath": "C:\\Users\\TT\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TT\\Documents\\GitHub\\BMSE\\obj\\",
+      "outputPath": "C:\\Users\\TT\\Documents\\GitHub\\SumireEditor\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
