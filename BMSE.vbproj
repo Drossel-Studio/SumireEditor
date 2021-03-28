@@ -11,14 +11,14 @@
     <OptionStrict>On</OptionStrict>
     <OptionInfer>Off</OptionInfer>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <Company />
+    <Company>Drossel Studio</Company>
     <Copyright>Hayana/UCN-Soft 2004-2007. Drossel Studio 2015-2021.</Copyright>
     <Version>1.5.0</Version>
     <NeutralLanguage>ja-JP</NeutralLanguage>
     <AssemblyName>SumireEditor</AssemblyName>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
     <PackageId>Sumire Editor (BMSE For Drossel Studio)</PackageId>
-    <Authors />
+    <Authors>Drossel Studio</Authors>
     <Product>Sumire Editor (BMSE For Drossel Studio)</Product>
   </PropertyGroup>
 
