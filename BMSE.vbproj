@@ -2,30 +2,36 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>SumireEditor</RootNamespace>
     <StartupObject>SumireEditor.frmMain</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
-    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <MyType>WindowsForms</MyType>
     <ApplicationIcon>BMSE.ico</ApplicationIcon>
-    <OptionStrict>On</OptionStrict>
-    <OptionInfer>Off</OptionInfer>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <Company>Drossel Studio</Company>
-    <Copyright>Hayana/UCN-Soft 2004-2007. Drossel Studio 2015-2021.</Copyright>
-    <Version>1.5.0</Version>
+    <Copyright>Hayana/UCN-Soft 2004-2007. Drossel Studio 2015-2023.</Copyright>
     <NeutralLanguage>ja-JP</NeutralLanguage>
-    <AssemblyName>SumireEditor</AssemblyName>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
     <PackageId>Sumire Editor (BMSE For Drossel Studio)</PackageId>
+    <Title>Sumire Editor (BMSE For Drossel Studio)</Title>
+    <Version>1.5.1</Version>
     <Authors>Drossel Studio</Authors>
     <Product>Sumire Editor (BMSE For Drossel Studio)</Product>
+    <Description>Sumire Editor</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Drossel-Studio/SumireEditor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyName>SumireEditor</AssemblyName>
+    <OptionInfer>Off</OptionInfer>
+    <OptionStrict>On</OptionStrict>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <PackageReleaseNotes>拍子変更のあるファイル読込時に異常終了するバグを修正</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <NoWarn></NoWarn>
     <DocumentationFile>BMSE.xml</DocumentationFile>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DefineConstants></DefineConstants>
@@ -36,7 +42,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <NoWarn></NoWarn>
     <DocumentationFile>BMSE.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <DebugSymbols>false</DebugSymbols>
@@ -46,10 +51,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="BMSE.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="My Project\Application.Designer.vb">
       <DesignTime>True</DesignTime>
@@ -57,12 +64,14 @@
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-
 </Project>
